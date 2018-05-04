@@ -11,12 +11,10 @@ firebase.initializeApp(config)
 firebase.auth().signInAnonymously()
 
 // CREATE a new woof in Firebase
-
 function createWoofInDatabase (woof) {
   // TODO create a new record in Firebase
-  firebase.database().ref(woof).push()
+  firebase.database().ref('woofs').push(woof)
 }
-
 // READ from Firebase when woofs are added, changed, or removed
 // Write a function for each 'on' method and call addWoofRow,
 // updateWoofRow, and deleteWoofRow to update the page. Make
@@ -24,25 +22,30 @@ function createWoofInDatabase (woof) {
 // defined in woofer-ui.js).
 function readWoofsInDatabase () {
   // TODO read new, changed, and deleted Firebase records
-  firebase.database().ref('woofKey')
-  .on('value', function (allMegSnapshot){
-  console.log(allMegSnapshot.val())
+firebase.database().ref('woofs')
+.on('child_added', function (newMegSnapshot) {
+ addWoofRow(newMegSnapshot.key, newMegSnapshot.val())
+})
+firebase.database().ref('woofs')
+.on('child_changed', function (updatedSnapshot) {
+ updateWoofRow(updatedSnapshot.key, updatedSnapshot.val())
+})
+firebase.database().ref('woofs')
+.on('child_removed', function (removedSnapshot) {
+ deleteWoofRow(removedSnapshot.key, removedSnapshot.val())
+})
 }
 
 // UPDATE the woof in Firebase
 function updateWoofInDatabase (woofKey, woofText) {
   // TODO update the record in Firebase
-  firebase.database().ref('woof/row.id/textbox.value').set
-  .on('.text', function(newMegSnapshot){
-   console.log('row', newMegSnapshot.key)
-   console.log('form', newMegSnapshot.val().form)
-   console.log('text', newMegSnapshot.val().text)
+firebase.database().ref('woofs').set(woof)
 }
 
 // DELETE the woof from Firebase
 function deleteWoofFromDatabase(woofKey) {
   // TODO delete the record from Firebase
-  firebase.database().ref('woofKey', 'row').remove()
+firebase.database().ref('woofs').remove()
 }
 
 // Load all of the data
