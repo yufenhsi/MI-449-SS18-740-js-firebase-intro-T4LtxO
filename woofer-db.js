@@ -22,30 +22,30 @@ function createWoofInDatabase (woof) {
 // defined in woofer-ui.js).
 function readWoofsInDatabase () {
   // TODO read new, changed, and deleted Firebase records
-firebase.database().ref('woofs')
-.on('child_added', function (newMegSnapshot) {
- addWoofRow(newMegSnapshot.key, newMegSnapshot.val())
-})
-firebase.database().ref('woofs')
-.on('child_changed', function (updatedSnapshot) {
- updateWoofRow(updatedSnapshot.key, updatedSnapshot.val())
-})
-firebase.database().ref('woofs')
-.on('child_removed', function (removedSnapshot) {
- deleteWoofRow(removedSnapshot.key, removedSnapshot.val())
-})
+  firebase.database().ref('woofs')
+  .on('child_added', function (newMegSnapshot) {
+    addWoofRow(newMegSnapshot.key, newMegSnapshot.val())
+  })
+  firebase.database().ref('woofs')
+  .on('child_changed', function (updatedSnapshot) {
+    updateWoofRow(updatedSnapshot.key, updatedSnapshot.val())
+  })
+  firebase.database().ref('woofs')
+  .on('child_removed', function (removedSnapshot) {
+    deleteWoofRow(removedSnapshot.key, removedSnapshot.val())
+  })
 }
 
 // UPDATE the woof in Firebase
 function updateWoofInDatabase (woofKey, woofText) {
   // TODO update the record in Firebase
-firebase.database().ref('woofs').set(woof)
+  firebase.database().ref('woofs').child(woofKey).child('text').set(woofText)
 }
 
 // DELETE the woof from Firebase
 function deleteWoofFromDatabase(woofKey) {
   // TODO delete the record from Firebase
-firebase.database().ref('woofs').remove()
+  firebase.database().ref('woofs').child(woofKey).remove()
 }
 
 // Load all of the data
